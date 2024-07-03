@@ -26,11 +26,11 @@ FSMs are widely used in various fields such as game development, robotics, and s
 
 1. create a fsm
 ```typescript
-	const machine = new FSM();
+const machine = new FSM();
 ```
 2. add a state 
 ```typescript
-	machine.addState('idle', { onEnter: () => console.log('hi'), onExit: () => {}, onUpdate: () => {} });
+machine.addState('idle', { onEnter: () => console.log('hi'), onExit: () => {}, onUpdate: () => {} });
 ````
 3. switch states
 ```typescript
