@@ -1,58 +1,47 @@
-# create-svelte
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+# Martingale: the control is in your hands
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
 
-## Creating a project
+## 🤨 What is a fsm
+A Finite State Machine (FSM) is a computational model used to design and represent the behavior of a system. It is composed of:
+- 🚥 **States**: Distinct modes or configurations that the system can be in. For example, a character in a game might have states like "idle", "walking", "running", etc.
+- 🎬 **Transitions**: Rules or conditions that determine when and how the system changes from one state to another. Transitions are typically triggered by events or conditions being met.
+- 🏁 **Initial State**: The state the system starts in.
+- 🎭 **Actions**: Operations or behaviors that occur when entering, exiting, or updating a state.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Key Characteristics of FSMs:
+- 🤨 **Deterministic**: The next state is determined by the current state and input.
+- 🧩 **Modular**: States and transitions are encapsulated, making it easier to manage complex behaviors.
+- 🧠 **Predictable**: Provides a clear and visual representation of the system's behavior, aiding in debugging and understanding.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Applications:
+FSMs are widely used in various fields such as game development, robotics, and software engineering for tasks like:
 
-# create a new project in my-app
-npm create svelte@latest my-app
+- 🧩 Controlling game character behavior
+- 👨🏻‍💻 Managing user interfaces
+- 🕸 Protocol design in communications
+- 🤖 Workflow automation
+
+## 📘 Usage
+
+1. create a fsm
+```typescript
+	const machine = new FSM();
+```
+2. add a state 
+```typescript
+	machine.addState('idle', { onEnter: () => console.log('hi'), onExit: () => {}, onUpdate: () => {} });
+````
+3. switch states
+```typescript
+machine.changeState('idle');
 ```
 
-## Developing
+# 🎯 Conclusion
+And here it is your fully functional fsm, that happens to work really well with [Sword](https://github.com/f-irac-odes/-medievaljs-sword)⚔️
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```bash
-npm run dev
+## License
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+[MIT](https://choosealicense.com/licenses/mit/)
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
