@@ -26,10 +26,13 @@ export class FSM {
 	 * instanceate a fsm (FINITE-STATE-MACHINE)
 	 * @param initialState the string indicating the initial state of the machine
 	 */
-	constructor(initialState?: string) {
+	constructor(initialState?: string, config?: StateConfig) {
 		this.states = {};
 		this.currentState = null;
-		if (initialState) this.changeState(initialState);
+		if (initialState && config) {
+			this.addState(initialState, config);
+			this.changeState(initialState);
+		}
 	}
 
 	/**
