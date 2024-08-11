@@ -1,4 +1,3 @@
-// Reexport your entry components here
-import { FSM, State, type StateConfig } from './fsm';
+import { makestate } from "./fsm.js"
 
-export { FSM, State, type StateConfig };
+export { makestate }

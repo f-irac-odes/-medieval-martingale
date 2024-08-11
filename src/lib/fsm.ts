@@ -1,71 +1,97 @@
-export type StateConfig = {
-	onEnter?: () => void;
-	onExit?: () => void;
-	onUpdate?: () => void;
-};
+type State = any; // You can specify a more detailed type based on your needs
 
-export class State {
-	name: string;
-	onEnter: () => void;
-	onExit: () => void;
-	onUpdate: () => void;
-
-	constructor(name: string, { onEnter, onExit, onUpdate }: StateConfig = {}) {
-		this.name = name;
-		this.onEnter = onEnter || (() => {});
-		this.onExit = onExit || (() => {});
-		this.onUpdate = onUpdate || (() => {});
-	}
+interface StoreOptions<T> {
+	[key: string]: T;
 }
 
-export class FSM {
-	states: { [key: string]: State };
-	currentState: string | null;
+interface Store<T> {
+	subscribe: (callback: (state: T) => void) => void;
+	get: () => T;
+	set: (newState: T) => void;
+	undo: () => void;
+	redo: () => void;
+	getStateHistory: () => T[];
+}
 
-	/**
-	 * instanceate a fsm (FINITE-STATE-MACHINE)
-	 * @param initialState the string indicating the initial state of the machine
-	 */
-	constructor(initialState?: string, config?: StateConfig) {
-		this.states = {};
-		this.currentState = null;
-		if (initialState && config) {
-			this.addState(initialState, config);
-			this.changeState(initialState);
-		}
+export function makestate<T>(state: T): Store<T> {
+	let currentState: T = state;
+	const history: T[] = [];
+	const future: T[] = [];
+	const subscribers: Array<(state: T) => void> = [];
+
+	/** This function notifies the subscribers of the change of the value */
+	function notify() {
+		subscribers.forEach((callback) => callback(currentState));
 	}
 
-	/**
-	 * Adds a new state to the FSM.
-	 * @param name - The name of the state.
-	 * @param config - The configuration object for the state.
-	 */
-	addState(name: string, config: StateConfig) {
-		this.states[name] = new State(name, config);
-	}
+	return {
+		/** 
+		 * subsribes to the value 
+		 * @param callback a callback function that runs every update
+		 * @returns a function to unsubscribe
+		*/
+		subscribe(callback: (state: T) => void) {
+			subscribers.push(callback);
+			callback(currentState);
+			
+			return () => subscribers.length = 0;
+		}, 
 
-	/**
-	 * Changes the current state of the FSM.
-	 * @param name - The name of the new state.
-	 */
-	changeState(name: string) {
-		if (this.currentState && this.states[this.currentState]) {
-			this.states[this.currentState].onExit();
-		}
-		this.currentState = name;
-		if (this.states[name]) {
-			this.states[name].onEnter();
-		} else {
-			throw new Error(`State "${name}" does not exist.`);
-		}
-	}
+		/**
+		 * gets the value
+		 * @returns the current value
+		 */
+		get() {
+			return currentState;
+		},
 
-	/**
-	 * Updates the current state of the FSM.
-	 */
-	update() {
-		if (this.currentState && this.states[this.currentState]) {
-			this.states[this.currentState].onUpdate();
+		/**
+		 * sets a new value
+		 * @param newState the value to replace the current value with.
+		 */
+		set(newState: T) {
+			if (JSON.stringify(currentState) !== JSON.stringify(newState)) {
+				history.push(currentState);
+				currentState = newState;
+				future.length = 0;
+				notify();
+			}
+		},
+
+		/**
+		 * goes back of one state
+		 */
+		undo() {
+			if (history.length > 1) {
+				future.push(history.pop()!);
+				currentState = history[history.length - 1];
+				notify();
+			}
+		},
+		/**
+		 * goes forward of one state if possible of one state
+		 */
+		redo() {
+			if (future.length > 0) {
+				const nextState = future.pop()!;
+				history.push(nextState);
+				currentState = nextState;
+				notify();
+			}
+		},
+
+		/**
+		 * function to change history
+		 * @returns all the previous states of the value
+		 */
+		getStateHistory() {
+			this.subscribe((state) => {
+				if(!history.includes(state)) {
+					history.length = 0
+					history.push(state)
+				}
+			})
+			return [...history];
 		}
-	}
+	};
 }
