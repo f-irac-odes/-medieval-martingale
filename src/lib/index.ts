@@ -1,3 +1,3 @@
-import { makestate } from "./fsm.js"
+import { makestate, type State, type StoreOptions } from "./fsm.js"
 
-export { makestate }
+export { makestate, type State, type StoreOptions }

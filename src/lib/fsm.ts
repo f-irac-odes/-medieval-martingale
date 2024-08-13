@@ -1,6 +1,6 @@
-type State = any; // You can specify a more detailed type based on your needs
+export type State = any; // You can specify a more detailed type based on your needs
 
-interface StoreOptions<T> {
+export interface StoreOptions<T> {
 	[key: string]: T;
 }
 
