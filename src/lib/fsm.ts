@@ -4,7 +4,7 @@ export interface StoreOptions<T> {
 	[key: string]: T;
 }
 
-interface Store<T> {
+export interface Store<T> {
 	subscribe: (callback: (state: T) => void) => void;
 	get: () => T;
 	set: (newState: T) => void;
