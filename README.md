@@ -1,57 +1,118 @@
-# Martingale: the control is in your hands
+# Martingale 🎩
 
-## 🤨 What is a fsm
+> 🧙‍♂️ _"Why juggle state manually, when you can let **Martingale** do it for you?"_  
+> – A wise developer somewhere in the multiverse
 
-A Finite State Machine (FSM) is a computational model used to design and represent the behavior of a system. It is composed of:
+🪄 Welcome to **Martingale** – the enchanting state management library that brings harmony to your application's state while making you feel like a wizard of code!
 
-- 🚥 **States**: Distinct modes or configurations that the system can be in. For example, a character in a game might have states like "idle", "walking", "running", etc.
-- 🎬 **Transitions**: Rules or conditions that determine when and how the system changes from one state to another. Transitions are typically triggered by events or conditions being met.
-- 🏁 **Initial State**: The state the system starts in.
-- 🎭 **Actions**: Operations or behaviors that occur when entering, exiting, or updating a state.
+## 💡 Features
 
-## Key Characteristics of FSMs:
+- 🎮 **Simple State Management**: Easily manage state without the fuss. No more headache-inducing complexity! 🤯
+- 🕰️ **Undo/Redo Magic**: Travel back and forth through your state history like a time traveler! ⏳
+- 📜 **State History**: Keep track of your past states as if you had a magical spell book! 📖
+- 🔍 **Getters Galore**: Access your state like a pro, with built-in methods for fetching the current value.
+- 🍰 **Flexible Options**: Customize your store's options to fit your needs like a well-tailored robe.
 
-- 🤨 **Deterministic**: The next state is determined by the current state and input.
-- 🧩 **Modular**: States and transitions are encapsulated, making it easier to manage complex behaviors.
-- 🧠 **Predictable**: Provides a clear and visual representation of the system's behavior, aiding in debugging and understanding.
+---
 
-## Applications:
+## 📓 Installation
 
-FSMs are widely used in various fields such as game development, robotics, and software engineering for tasks like:
+Getting started with Martingale is as simple as casting a spell:
 
-- 🧩 Controlling game character behavior
-- 👨🏻‍💻 Managing user interfaces
-- 🕸 Protocol design in communications
-- 🤖 Workflow automation
-
-## 📘 Usage
-
-1. create a fsm
-
-```typescript
-const machine = new FSM();
+```bash
+npm install @medieval/martingale --force
 ```
 
-2. add a state
+💡 **Pro Tip:** 🧙‍♂️ Don't forget to run `npm install` – your magic won't work without it!
+
+---
+
+## 🚀 Getting Started
+
+Here’s how you can start managing your state like a true sorcerer:
 
 ```typescript
-machine.addState('idle', {
-	onEnter: () => console.log('hi'),
-	onExit: () => {},
-	onUpdate: () => {}
+import { makestate, Store } from '@medieval/martingale';
+
+// Create a magical state
+const initialState = { count: 0 };
+const store: Store<typeof initialState> = makestate(initialState);
+
+// Subscribe to state changes
+const unsubscribe = store.subscribe((state) => {
+  console.log('🔮 Current State:', state);
 });
+
+// Update the state
+store.set({ count: 1 }); // 💥 State updated!
+
+// Perform an undo
+store.undo(); // ⏪ Back in time!
+
+// Get the current state
+const currentState = store.get();
+console.log('📜 Retrieved State:', currentState);
 ```
 
-3. switch states
+> 📜 **Disclaimer**: No states were harmed during this state management!
+
+## 🔍 Using the Store
+
+With **Martingale**, you can manage your state like a seasoned wizard. Here’s how:
+
+### Subscribe to State Changes
+
+Subscribe to changes and perform your magic:
 
 ```typescript
-machine.changeState('idle');
+const unsubscribe = store.subscribe((state) => {
+  console.log('🌟 State Updated:', state);
+});
+
+// Unsubscribe when you no longer need to watch the state
+unsubscribe();
 ```
 
-# 🎯 Conclusion
+### Update the State
 
-And here it is your fully functional fsm, that happens to work really well with [Sword](https://github.com/f-irac-odes/-medievaljs-sword)⚔️
+Change your state and watch the magic happen:
 
-## License
+```typescript
+store.set({ count: 2 }); // ✨ Update the state!
+```
 
-[MIT](https://choosealicense.com/licenses/mit/)
+### Undo and Redo
+
+Time travel with undo and redo capabilities:
+
+```typescript
+store.undo(); // ⏪ Go back one state
+store.redo(); // ⏩ Go forward one state
+```
+
+### Get State History
+
+Retrieve the history of your state changes:
+
+```typescript
+const history = store.getStateHistory();
+console.log('📜 State History:', history);
+```
+
+---
+
+## 🤝 Contributing
+
+We’d love your help to make **Martingale** even more **awesome**! Submit issues, PRs, or just send us a virtual high-five! 🙌
+
+> 🕸️ _"With great state management, comes great responsibility."_ – Not Spider-Man, but very close
+
+Feel free to contribute at the [GitHub repository](https://github.com/yourusername/martingale).
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+🎩 Now go ahead and manage your state like a master wizard with **Martingale**! **Enjoy the magic!**
